@@ -108,34 +108,48 @@ function AttendancePage() {
               Bado hakuna mtu aliyejisajili kwa siku hii.
             </p>
           ) : (
-            <div className="mt-6 overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-secondary/60 text-left text-xs uppercase tracking-wider text-muted-foreground">
-                  <tr>
-                    <th className="px-4 py-3">#</th>
-                    <th className="px-4 py-3">Jina</th>
-                    <th className="px-4 py-3">Simu</th>
-                    <th className="px-4 py-3">Kundi</th>
-                    <th className="px-4 py-3">Muda</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {rows.map((r, i) => (
-                    <tr key={r.id}>
-                      <td className="px-4 py-3 text-muted-foreground">{i + 1}</td>
-                      <td className="px-4 py-3 font-medium text-foreground">{r.full_name}</td>
-                      <td className="px-4 py-3">
+            <ul className="mt-6 space-y-4">
+              {rows.map((r, i) => (
+                <li key={r.id} className="rounded-xl border border-border bg-background p-5">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <p className="font-display text-lg text-primary">
+                        {i + 1}. {r.full_name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
                         <a href={`tel:${r.phone.replace(/\s/g, "")}`} className="text-accent hover:underline">{r.phone}</a>
-                      </td>
-                      <td className="px-4 py-3 text-foreground/80">{r.group_name || "—"}</td>
-                      <td className="px-4 py-3 text-muted-foreground">
+                        {r.group_name ? <> · {r.group_name}</> : null}
+                        {" · "}
                         {new Date(r.created_at).toLocaleString("sw-TZ")}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                      </p>
+                    </div>
+                  </div>
+
+                  {r.learned && (
+                    <div className="mt-4">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-accent">Alichojifunza</p>
+                      <p className="mt-1 whitespace-pre-wrap text-sm text-foreground/90">{r.learned}</p>
+                    </div>
+                  )}
+
+                  {r.answers && r.answers.length > 0 && (
+                    <details className="mt-4 group">
+                      <summary className="cursor-pointer text-sm font-semibold text-accent hover:underline">
+                        Onyesha majibu ya maswali ({r.answers.length})
+                      </summary>
+                      <ol className="mt-3 space-y-3 border-l-2 border-accent/30 pl-4">
+                        {r.answers.map((a, idx) => (
+                          <li key={idx}>
+                            <p className="text-xs font-medium text-muted-foreground">Swali {idx + 1}: {a.question}</p>
+                            <p className="mt-1 whitespace-pre-wrap text-sm text-foreground/90">{a.answer}</p>
+                          </li>
+                        ))}
+                      </ol>
+                    </details>
+                  )}
+                </li>
+              ))}
+            </ul>
           )}
         </div>
       </main>
