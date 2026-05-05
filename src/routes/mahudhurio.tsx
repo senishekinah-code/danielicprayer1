@@ -96,12 +96,14 @@ function AttendancePage() {
               <a
                 href={(() => {
                   const lines = rows.map((r, i) =>
-                    `${i + 1}. ${r.full_name} (${r.phone})${r.group_name ? " · " + r.group_name : ""}`
+                    `${i + 1}. ${r.full_name}\n   📞 ${r.phone}\n   ⛪ Jumuia: ${r.group_name ?? "Haijatajwa"}`
                   );
                   const msg =
-                    `*Mahudhurio — Siku ya ${selectedDay}*\n` +
-                    `Jumla: ${rows.length}\n\n` +
-                    (lines.length ? lines.join("\n") : "Hakuna aliyejisajili bado.");
+                    `*MAHUDHURIO YA MAOMBI*\n` +
+                    `📅 Siku ya ${selectedDay}\n` +
+                    `👥 Jumla ya waliohudhuria: ${rows.length}\n` +
+                    `\n———————————————\n\n` +
+                    (lines.length ? lines.join("\n\n") : "Hakuna aliyejisajili bado.");
                   return `https://wa.me/255769080629?text=${encodeURIComponent(msg)}`;
                 })()}
                 target="_blank"
