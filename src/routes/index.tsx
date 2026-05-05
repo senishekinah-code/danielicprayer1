@@ -1,11 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { bookMeta, intro, days } from "@/data/book";
+import { SiteNav } from "@/components/SiteNav";
+import { churchInfo } from "@/data/church";
 
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
   return (
     <div className="min-h-screen bg-background">
+      <SiteNav />
       {/* Hero */}
       <header className="bg-hero text-primary-foreground">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center">
