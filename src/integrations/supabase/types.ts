@@ -19,6 +19,7 @@ export type Database = {
           answers: Json | null
           created_at: string
           day: number
+          edit_token: string
           full_name: string
           group_name: string | null
           id: string
@@ -29,6 +30,7 @@ export type Database = {
           answers?: Json | null
           created_at?: string
           day: number
+          edit_token?: string
           full_name: string
           group_name?: string | null
           id?: string
@@ -39,6 +41,7 @@ export type Database = {
           answers?: Json | null
           created_at?: string
           day?: number
+          edit_token?: string
           full_name?: string
           group_name?: string | null
           id?: string
@@ -52,7 +55,34 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_attendance: {
+        Args: {
+          p_answers: Json
+          p_full_name: string
+          p_group_name: string
+          p_id: string
+          p_learned: string
+          p_phone: string
+          p_token: string
+        }
+        Returns: {
+          answers: Json | null
+          created_at: string
+          day: number
+          edit_token: string
+          full_name: string
+          group_name: string | null
+          id: string
+          learned: string | null
+          phone: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "attendance"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       [_ in never]: never
