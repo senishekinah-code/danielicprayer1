@@ -13,8 +13,8 @@ export const Route = createFileRoute("/maombi-binafsi")({
 });
 
 const recipients = [
-  { label: "Mch. Dkt. Daniel Seni", phone: "255769080629" },
-  { label: "Mch. Manyanda Charles Masoda", phone: "255785621014" },
+  { label: "Tuma Ombi (Chaguo 1)", phone: "255769080629" },
+  { label: "Tuma Ombi (Chaguo 2)", phone: "255785621014" },
 ];
 
 function PrayerRequestPage() {
@@ -49,7 +49,7 @@ function PrayerRequestPage() {
         <div className="mx-auto max-w-3xl px-6 py-12 text-center">
           <h1 className="font-display text-4xl md:text-5xl">Ombi la Kuombewa</h1>
           <p className="mt-3 text-sm text-primary-foreground/80">
-            Tuma ombi lako moja kwa moja kwa Mchungaji ili uombewe.
+            Tuma ombi lako, na utapigiwa simu kwa ajili ya kuombewa.
           </p>
         </div>
       </header>
@@ -81,7 +81,7 @@ function PrayerRequestPage() {
 
             <div>
               <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
-                Chagua mchungaji wa kumtumia ombi lako
+                Chagua njia ya kutuma ombi lako
               </p>
               <div className="grid gap-3 sm:grid-cols-2">
                 {recipients.map((r) => (
@@ -91,13 +91,12 @@ function PrayerRequestPage() {
                     onClick={(e) => handleSend(buildLink(r.phone), e)}
                     className="rounded-xl bg-[#25D366] px-5 py-4 text-center text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
                   >
-                    ↗ Tuma kwa<br />
                     <span className="font-display text-base">{r.label}</span>
                   </a>
                 ))}
               </div>
               <p className="mt-3 text-xs text-muted-foreground">
-                Utafunguliwa WhatsApp ukiwa na ujumbe tayari — bonyeza tu *Send*.
+                Baada ya kutuma ujumbe, utapigiwa simu kwa ajili ya kuombewa.
               </p>
             </div>
           </div>
