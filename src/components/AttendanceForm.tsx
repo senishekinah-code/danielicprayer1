@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import type { Day } from "@/data/book";
@@ -11,6 +11,16 @@ const baseSchema = z.object({
   learned: z.string().trim().min(5, "Andika ulichojifunza (angalau herufi 5)").max(5000),
 });
 
+type SavedRecord = { id: string; token: string };
+const storageKey = (day: number) => `attendance:day:${day}`;
+
+function loadSaved(day: number): SavedRecord | null {
+  try {
+    const raw = localStorage.getItem(storageKey(day));
+    return raw ? (JSON.parse(raw) as SavedRecord) : null;
+  } catch { return null; }
+}
+
 export function AttendanceForm({ day }: { day: Day }) {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -19,6 +29,41 @@ export function AttendanceForm({ day }: { day: Day }) {
   const [answers, setAnswers] = useState<string[]>(() => day.questions.map(() => ""));
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
+
+  const [saved, setSaved] = useState<SavedRecord | null>(null);
+  const [editing, setEditing] = useState(false);
+
+  // Load saved record for this day
+  useEffect(() => {
+    setSaved(loadSaved(day.day));
+    setEditing(false);
+    setStatus("idle");
+    setError("");
+    setFullName(""); setPhone(""); setGroup(""); setLearned("");
+    setAnswers(day.questions.map(() => ""));
+  }, [day.day, day.questions]);
+
+  async function startEdit() {
+    if (!saved) return;
+    setError("");
+    const { data, error: e } = await supabase
+      .from("attendance")
+      .select("full_name, phone, group_name, learned, answers")
+      .eq("id", saved.id)
+      .maybeSingle();
+    if (e || !data) {
+      setError("Imeshindikana kupakia rekodi yako.");
+      return;
+    }
+    setFullName(data.full_name);
+    setPhone(data.phone);
+    setGroup(data.group_name ?? "");
+    setLearned(data.learned ?? "");
+    const incoming = (data.answers as { question: string; answer: string }[] | null) ?? [];
+    setAnswers(day.questions.map((_, i) => incoming[i]?.answer ?? ""));
+    setEditing(true);
+    setStatus("idle");
+  }
 
   function setAnswer(i: number, val: string) {
     setAnswers((prev) => prev.map((a, idx) => (idx === i ? val : a)));
@@ -33,7 +78,6 @@ export function AttendanceForm({ day }: { day: Day }) {
       setError(parsed.error.issues[0].message);
       return;
     }
-    // Ensure all questions answered
     const missing = answers.findIndex((a) => a.trim().length < 2);
     if (missing !== -1) {
       setError(`Tafadhali jibu Swali la ${missing + 1}.`);
@@ -46,36 +90,87 @@ export function AttendanceForm({ day }: { day: Day }) {
       answer: a.trim(),
     }));
 
-    const { error: dbError } = await supabase.from("attendance").insert({
-      day: day.day,
-      full_name: parsed.data.full_name,
-      phone: parsed.data.phone,
-      group_name: group || null,
-      learned: parsed.data.learned,
-      answers: payload,
-    });
-
-    if (dbError) {
-      setStatus("error");
-      setError(dbError.message);
-      return;
+    if (editing && saved) {
+      const { error: rpcError } = await supabase.rpc("update_attendance", {
+        p_id: saved.id,
+        p_token: saved.token,
+        p_full_name: parsed.data.full_name,
+        p_phone: parsed.data.phone,
+        p_group_name: group || "",
+        p_learned: parsed.data.learned,
+        p_answers: payload,
+      });
+      if (rpcError) {
+        setStatus("error");
+        setError("Imeshindikana kuhariri: " + rpcError.message);
+        return;
+      }
+    } else {
+      const { data: inserted, error: dbError } = await supabase
+        .from("attendance")
+        .insert({
+          day: day.day,
+          full_name: parsed.data.full_name,
+          phone: parsed.data.phone,
+          group_name: group || null,
+          learned: parsed.data.learned,
+          answers: payload,
+        })
+        .select("id, edit_token")
+        .single();
+      if (dbError || !inserted) {
+        setStatus("error");
+        setError(dbError?.message ?? "Hitilafu");
+        return;
+      }
+      const rec: SavedRecord = { id: inserted.id, token: (inserted as { edit_token: string }).edit_token };
+      try { localStorage.setItem(storageKey(day.day), JSON.stringify(rec)); } catch { /* ignore */ }
+      setSaved(rec);
     }
+
     setStatus("success");
-    setFullName(""); setPhone(""); setGroup(""); setLearned("");
-    setAnswers(day.questions.map(() => ""));
+    setEditing(false);
+  }
+
+  // Already submitted, not editing — show summary CTA
+  if (saved && !editing && status !== "success") {
+    return (
+      <section className="mt-8 rounded-2xl border border-accent/40 bg-accent/5 p-8 shadow-sm">
+        <h2 className="font-display text-2xl text-primary">✓ Umehudhuria Siku ya {day.day}</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Mahudhurio yako tayari yamerekodiwa. Unaweza kuhariri mafunzo na majibu ikiwa umebadili mawazo.
+        </p>
+        <button
+          onClick={startEdit}
+          className="mt-5 rounded-full border border-accent bg-card px-6 py-2.5 text-sm font-semibold text-accent transition hover:bg-accent hover:text-accent-foreground"
+        >
+          ✎ Hariri Mahudhurio Yangu
+        </button>
+        {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
+      </section>
+    );
   }
 
   return (
     <section className="mt-8 rounded-2xl border border-border bg-card p-8 shadow-sm">
-      <h2 className="font-display text-2xl text-primary">Sajili Mahudhurio</h2>
+      <h2 className="font-display text-2xl text-primary">
+        {editing ? "Hariri Mahudhurio Yako" : "Sajili Mahudhurio"}
+      </h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        Jaza fomu hii kuthibitisha umehudhuria maombi ya Siku ya {day.day} — pamoja na kile ulichojifunza na majibu ya maswali.
+        {editing
+          ? `Badilisha mafunzo au majibu ya Siku ya ${day.day}, kisha bonyeza Hifadhi.`
+          : `Jaza fomu hii kuthibitisha umehudhuria maombi ya Siku ya ${day.day} — pamoja na kile ulichojifunza na majibu ya maswali.`}
       </p>
 
       {status === "success" ? (
         <div className="mt-6 rounded-lg border border-accent/40 bg-accent/10 p-4 text-sm text-foreground">
-          ✓ Asante! Mahudhurio yako ya Siku ya {day.day} yamerekodiwa pamoja na majibu yako.
-          <button onClick={() => setStatus("idle")} className="ml-2 underline text-accent">Sajili mwingine</button>
+          ✓ Asante! {editing ? "Mabadiliko" : "Mahudhurio"} ya Siku ya {day.day} yamehifadhiwa.
+          <button
+            onClick={() => { setStatus("idle"); }}
+            className="ml-2 underline text-accent"
+          >
+            Sawa
+          </button>
         </div>
       ) : (
         <form onSubmit={onSubmit} className="mt-6 grid gap-5">
@@ -115,7 +210,7 @@ export function AttendanceForm({ day }: { day: Day }) {
               value={learned} onChange={(e) => setLearned(e.target.value)}
               rows={4} maxLength={5000} required
               className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-accent focus:outline-none"
-              placeholder="Andika kwa ufupi mafunzo uliyopata kutoka Siku ya {day.day}…"
+              placeholder={`Andika kwa ufupi mafunzo uliyopata kutoka Siku ya ${day.day}…`}
             />
           </div>
 
@@ -138,12 +233,26 @@ export function AttendanceForm({ day }: { day: Day }) {
           </div>
 
           {error && <p className="text-sm text-destructive">{error}</p>}
-          <button
-            type="submit" disabled={status === "loading"}
-            className="rounded-full bg-gold-grad px-6 py-3 text-sm font-semibold text-gold-foreground shadow-elegant transition hover:scale-[1.02] disabled:opacity-50"
-          >
-            {status === "loading" ? "Inahifadhi…" : "✓ Tuma Mahudhurio"}
-          </button>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="submit" disabled={status === "loading"}
+              className="rounded-full bg-gold-grad px-6 py-3 text-sm font-semibold text-gold-foreground shadow-elegant transition hover:scale-[1.02] disabled:opacity-50"
+            >
+              {status === "loading"
+                ? "Inahifadhi…"
+                : editing ? "✓ Hifadhi Mabadiliko" : "✓ Tuma Mahudhurio"}
+            </button>
+            {editing && (
+              <button
+                type="button"
+                onClick={() => { setEditing(false); setError(""); }}
+                className="text-sm text-muted-foreground hover:text-foreground underline"
+              >
+                Ghairi
+              </button>
+            )}
+          </div>
         </form>
       )}
     </section>
