@@ -32,6 +32,18 @@ function Home() {
         </div>
       </header>
 
+      {/* Church note */}
+      <section className="mx-auto max-w-3xl px-6 pt-12">
+        <div className="rounded-2xl border border-accent/30 bg-accent/5 p-6 text-center">
+          <p className="text-xs uppercase tracking-[0.3em] text-accent">Maelezo</p>
+          <p className="mt-3 font-display text-xl text-primary">{churchInfo.primaryChurch}</p>
+          <p className="mt-2 text-sm text-foreground/80">{churchInfo.note}</p>
+          <Link to="/viongozi" className="mt-4 inline-block text-sm font-semibold text-accent hover:underline">
+            Tazama viongozi wa kanisa →
+          </Link>
+        </div>
+      </section>
+
       {/* Intro */}
       <section className="mx-auto max-w-3xl px-6 py-16">
         <h2 className="font-display text-3xl text-primary md:text-4xl">{intro.heading}</h2>
