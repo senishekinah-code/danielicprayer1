@@ -84,7 +84,7 @@ function DayPage() {
           <p className="mt-4 font-display text-xl italic leading-relaxed">{day.declaration}</p>
         </section>
 
-        <AttendanceForm day={day.day} />
+        <AttendanceForm day={day} />
 
         <nav className="mt-16 flex items-center justify-between gap-4 border-t border-border pt-8">
           {prev ? (
