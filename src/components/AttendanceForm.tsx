@@ -106,6 +106,7 @@ export function AttendanceForm({ day }: { day: Day }) {
         return;
       }
     } else {
+      const token = crypto.randomUUID();
       const { data: inserted, error: dbError } = await supabase
         .from("attendance")
         .insert({
@@ -115,15 +116,16 @@ export function AttendanceForm({ day }: { day: Day }) {
           group_name: group || null,
           learned: parsed.data.learned,
           answers: payload,
+          edit_token: token,
         })
-        .select("id, edit_token")
+        .select("id")
         .single();
       if (dbError || !inserted) {
         setStatus("error");
         setError(dbError?.message ?? "Hitilafu");
         return;
       }
-      const rec: SavedRecord = { id: inserted.id, token: (inserted as { edit_token: string }).edit_token };
+      const rec: SavedRecord = { id: inserted.id, token };
       try { localStorage.setItem(storageKey(day.day), JSON.stringify(rec)); } catch { /* ignore */ }
       setSaved(rec);
     }
