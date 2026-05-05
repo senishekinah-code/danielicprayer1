@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { days, bookMeta, type Day } from "@/data/book";
+import { AttendanceForm } from "@/components/AttendanceForm";
 
 export const Route = createFileRoute("/siku/$day")({
   component: DayPage,
@@ -82,6 +83,8 @@ function DayPage() {
           <p className="text-xs uppercase tracking-[0.3em] text-gold">Tamko la Imani</p>
           <p className="mt-4 font-display text-xl italic leading-relaxed">{day.declaration}</p>
         </section>
+
+        <AttendanceForm day={day.day} />
 
         <nav className="mt-16 flex items-center justify-between gap-4 border-t border-border pt-8">
           {prev ? (
