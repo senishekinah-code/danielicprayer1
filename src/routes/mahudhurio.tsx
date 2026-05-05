@@ -14,7 +14,6 @@ export const Route = createFileRoute("/mahudhurio")({
   component: AttendancePage,
 });
 
-type Row = {
 type Answer = { question: string; answer: string };
 type Row = {
   id: string;
