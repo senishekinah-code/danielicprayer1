@@ -19,6 +19,9 @@ export function SiteNav() {
           <Link to="/mahudhurio" className="rounded-md px-3 py-1.5 text-muted-foreground hover:text-accent" activeProps={{ className: "text-accent font-semibold" }}>
             Mahudhurio
           </Link>
+          <Link to="/maombi-binafsi" className="rounded-md px-3 py-1.5 text-muted-foreground hover:text-accent" activeProps={{ className: "text-accent font-semibold" }}>
+            Ombi la Kuombewa
+          </Link>
         </div>
       </div>
     </nav>
