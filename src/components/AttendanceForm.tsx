@@ -3,7 +3,18 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import type { Day } from "@/data/book";
 
-const groups = ["Kundi la 1", "Kundi la 2", "Kundi la 3", "Kundi la 4", "Mgeni / Kanisa lingine"];
+const groups = [
+  "Adonai Family Fellowship",
+  "Shalom Family Fellowship",
+  "Maranatha Family Fellowship",
+  "Hosana Family Fellowship",
+  "Halelujah Family Fellowship",
+  "Elshadai Family Fellowship",
+  "Ebenezer Family Fellowship",
+  "Diakonia Family Fellowship",
+  "Agape Family Fellowship",
+  "Mahanaimu Family Fellowship",
+];
 
 const baseSchema = z.object({
   full_name: z.string().trim().min(2, "Andika jina kamili").max(100),
@@ -196,12 +207,12 @@ export function AttendanceForm({ day }: { day: Day }) {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-foreground">Kundi (hiari)</label>
+            <label className="text-sm font-medium text-foreground">Jumuia yako (Fellowship)</label>
             <select
-              value={group} onChange={(e) => setGroup(e.target.value)}
+              value={group} onChange={(e) => setGroup(e.target.value)} required
               className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-accent focus:outline-none"
             >
-              <option value="">— Chagua kundi —</option>
+              <option value="" disabled>— Chagua jumuia yako —</option>
               {groups.map((g) => <option key={g} value={g}>{g}</option>)}
             </select>
           </div>
