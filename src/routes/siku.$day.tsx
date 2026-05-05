@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { days, bookMeta } from "@/data/book";
+import { days, bookMeta, type Day } from "@/data/book";
 
 export const Route = createFileRoute("/siku/$day")({
   component: DayPage,
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/siku/$day")({
 });
 
 function DayPage() {
-  const { day } = Route.useLoaderData();
+  const { day } = Route.useLoaderData() as { day: Day };
   const prev = days.find((d) => d.day === day.day - 1);
   const next = days.find((d) => d.day === day.day + 1);
 
