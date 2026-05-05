@@ -1,11 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { bookMeta, intro, days } from "@/data/book";
+import { SiteNav } from "@/components/SiteNav";
+import { churchInfo } from "@/data/church";
 
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
   return (
     <div className="min-h-screen bg-background">
+      <SiteNav />
       {/* Hero */}
       <header className="bg-hero text-primary-foreground">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center">
@@ -28,6 +31,18 @@ function Home() {
           </a>
         </div>
       </header>
+
+      {/* Church note */}
+      <section className="mx-auto max-w-3xl px-6 pt-12">
+        <div className="rounded-2xl border border-accent/30 bg-accent/5 p-6 text-center">
+          <p className="text-xs uppercase tracking-[0.3em] text-accent">Maelezo</p>
+          <p className="mt-3 font-display text-xl text-primary">{churchInfo.primaryChurch}</p>
+          <p className="mt-2 text-sm text-foreground/80">{churchInfo.note}</p>
+          <Link to="/viongozi" className="mt-4 inline-block text-sm font-semibold text-accent hover:underline">
+            Tazama viongozi wa kanisa →
+          </Link>
+        </div>
+      </section>
 
       {/* Intro */}
       <section className="mx-auto max-w-3xl px-6 py-16">
