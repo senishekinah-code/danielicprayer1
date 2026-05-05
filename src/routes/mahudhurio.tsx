@@ -88,17 +88,36 @@ function AttendancePage() {
         </div>
 
         <div className="mt-8 rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="font-display text-2xl text-primary">
               Siku ya {selectedDay} — {rows.length} waliohudhuria
             </h2>
-            <Link
-              to="/siku/$day"
-              params={{ day: String(selectedDay) }}
-              className="text-sm text-accent hover:underline"
-            >
-              Soma somo →
-            </Link>
+            <div className="flex items-center gap-3">
+              <a
+                href={(() => {
+                  const lines = rows.map((r, i) =>
+                    `${i + 1}. ${r.full_name} (${r.phone})${r.group_name ? " · " + r.group_name : ""}`
+                  );
+                  const msg =
+                    `*Mahudhurio — Siku ya ${selectedDay}*\n` +
+                    `Jumla: ${rows.length}\n\n` +
+                    (lines.length ? lines.join("\n") : "Hakuna aliyejisajili bado.");
+                  return `https://wa.me/255769080629?text=${encodeURIComponent(msg)}`;
+                })()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
+              >
+                ↗ Tuma WhatsApp
+              </a>
+              <Link
+                to="/siku/$day"
+                params={{ day: String(selectedDay) }}
+                className="text-sm text-accent hover:underline"
+              >
+                Soma somo →
+              </Link>
+            </div>
           </div>
 
           {loading ? (
