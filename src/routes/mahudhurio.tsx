@@ -15,11 +15,15 @@ export const Route = createFileRoute("/mahudhurio")({
 });
 
 type Row = {
+type Answer = { question: string; answer: string };
+type Row = {
   id: string;
   day: number;
   full_name: string;
   phone: string;
   group_name: string | null;
+  learned: string | null;
+  answers: Answer[] | null;
   created_at: string;
 };
 
