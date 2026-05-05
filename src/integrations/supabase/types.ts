@@ -16,27 +16,33 @@ export type Database = {
     Tables: {
       attendance: {
         Row: {
+          answers: Json | null
           created_at: string
           day: number
           full_name: string
           group_name: string | null
           id: string
+          learned: string | null
           phone: string
         }
         Insert: {
+          answers?: Json | null
           created_at?: string
           day: number
           full_name: string
           group_name?: string | null
           id?: string
+          learned?: string | null
           phone: string
         }
         Update: {
+          answers?: Json | null
           created_at?: string
           day?: number
           full_name?: string
           group_name?: string | null
           id?: string
+          learned?: string | null
           phone?: string
         }
         Relationships: []
