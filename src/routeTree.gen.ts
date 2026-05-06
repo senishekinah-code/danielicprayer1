@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ViongoziRouteImport } from './routes/viongozi'
 import { Route as MaombiBinafsiRouteImport } from './routes/maombi-binafsi'
-import { Route as MahudhurioRouteImport } from './routes/mahudhurio'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SikuDayRouteImport } from './routes/siku.$day'
 
@@ -23,11 +22,6 @@ const ViongoziRoute = ViongoziRouteImport.update({
 const MaombiBinafsiRoute = MaombiBinafsiRouteImport.update({
   id: '/maombi-binafsi',
   path: '/maombi-binafsi',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MahudhurioRoute = MahudhurioRouteImport.update({
-  id: '/mahudhurio',
-  path: '/mahudhurio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,14 +37,12 @@ const SikuDayRoute = SikuDayRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/mahudhurio': typeof MahudhurioRoute
   '/maombi-binafsi': typeof MaombiBinafsiRoute
   '/viongozi': typeof ViongoziRoute
   '/siku/$day': typeof SikuDayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/mahudhurio': typeof MahudhurioRoute
   '/maombi-binafsi': typeof MaombiBinafsiRoute
   '/viongozi': typeof ViongoziRoute
   '/siku/$day': typeof SikuDayRoute
@@ -58,33 +50,20 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/mahudhurio': typeof MahudhurioRoute
   '/maombi-binafsi': typeof MaombiBinafsiRoute
   '/viongozi': typeof ViongoziRoute
   '/siku/$day': typeof SikuDayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/mahudhurio'
-    | '/maombi-binafsi'
-    | '/viongozi'
-    | '/siku/$day'
+  fullPaths: '/' | '/maombi-binafsi' | '/viongozi' | '/siku/$day'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/mahudhurio' | '/maombi-binafsi' | '/viongozi' | '/siku/$day'
-  id:
-    | '__root__'
-    | '/'
-    | '/mahudhurio'
-    | '/maombi-binafsi'
-    | '/viongozi'
-    | '/siku/$day'
+  to: '/' | '/maombi-binafsi' | '/viongozi' | '/siku/$day'
+  id: '__root__' | '/' | '/maombi-binafsi' | '/viongozi' | '/siku/$day'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  MahudhurioRoute: typeof MahudhurioRoute
   MaombiBinafsiRoute: typeof MaombiBinafsiRoute
   ViongoziRoute: typeof ViongoziRoute
   SikuDayRoute: typeof SikuDayRoute
@@ -106,13 +85,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MaombiBinafsiRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/mahudhurio': {
-      id: '/mahudhurio'
-      path: '/mahudhurio'
-      fullPath: '/mahudhurio'
-      preLoaderRoute: typeof MahudhurioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -132,7 +104,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  MahudhurioRoute: MahudhurioRoute,
   MaombiBinafsiRoute: MaombiBinafsiRoute,
   ViongoziRoute: ViongoziRoute,
   SikuDayRoute: SikuDayRoute,
@@ -140,3 +111,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
