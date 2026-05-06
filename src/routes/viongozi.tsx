@@ -5,8 +5,8 @@ import { churchInfo, leadership, departments, prayerGroups, churchGroups } from 
 export const Route = createFileRoute("/viongozi")({
   head: () => ({
     meta: [
-      { title: "Viongozi wa Kanisa | Shekinah Presbyterian – Madale" },
-      { name: "description", content: "Viongozi wa Shekinah Presbyterian Church – Madale: Wazee, Wachungaji, Mashemasi, Idara, na Makundi ya Maombi." },
+      { title: "Viongozi wa Kanisa | Shekinah Presbyterian Church" },
+      { name: "description", content: "Viongozi wa Shekinah Presbyterian Church: Wazee, Wachungaji, Mashemasi, Idara, na Makundi ya Maombi." },
     ],
   }),
   component: ViongoziPage,
