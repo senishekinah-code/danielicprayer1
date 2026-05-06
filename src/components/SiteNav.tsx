@@ -14,9 +14,6 @@ export function SiteNav() {
           <Link to="/" className="rounded-md px-3 py-1.5 text-muted-foreground hover:text-accent" activeOptions={{ exact: true }} activeProps={{ className: "text-accent font-semibold" }}>
             Nyumbani
           </Link>
-          <Link to="/viongozi" className="rounded-md px-3 py-1.5 text-muted-foreground hover:text-accent" activeProps={{ className: "text-accent font-semibold" }}>
-            Viongozi
-          </Link>
           <Link to="/maombi-binafsi" className="rounded-md px-3 py-1.5 text-muted-foreground hover:text-accent" activeProps={{ className: "text-accent font-semibold" }}>
             Ombi la Kuombewa
           </Link>
