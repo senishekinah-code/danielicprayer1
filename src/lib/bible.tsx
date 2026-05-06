@@ -2,7 +2,7 @@ import React from "react";
 
 // Swahili book name -> USFM code used by YouVersion (bible.com)
 // SUV (Swahili Union Version) version id on YouVersion = 1126
-const SUV_ID = 1126;
+const SUV_ID = 164;
 
 const BOOK_CODES: Record<string, string> = {
   "Mwanzo": "GEN", "Kutoka": "EXO", "Walawi": "LEV", "Hesabu": "NUM",
