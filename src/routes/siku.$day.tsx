@@ -89,6 +89,15 @@ function DayPage() {
               </li>
             ))}
           </ul>
+
+          <div className="mt-6 rounded-xl border border-dashed border-accent/50 bg-background/50 p-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-accent">
+              Ombi Maalum la Kanisa Lenu
+            </p>
+            <p className="mt-2 text-sm text-foreground/80">
+              Kila kanisa litaje na liombee ombi lake maalum la leo (mfano: uinjilisti, ujenzi, wagonjwa, viongozi, familia, n.k.).
+            </p>
+          </div>
         </section>
 
         <section className="mt-8 rounded-2xl bg-hero p-8 text-primary-foreground shadow-elegant">
