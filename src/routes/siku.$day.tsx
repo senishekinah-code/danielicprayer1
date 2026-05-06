@@ -3,6 +3,7 @@ import { days, bookMeta, type Day } from "@/data/book";
 import { AttendanceForm } from "@/components/AttendanceForm";
 import { BibleText, bibleUrl } from "@/lib/bible";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ReadAloud } from "@/components/ReadAloud";
 
 export const Route = createFileRoute("/siku/$day")({
   component: DayPage,
@@ -62,6 +63,7 @@ function DayPage() {
 
         <section className="prose-reading mt-12 text-foreground/90">
           <h2 className="mb-4 font-display text-2xl text-primary">Maelezo</h2>
+          <ReadAloud text={`${day.title}. Andiko Kuu: ${day.scripture}. ${day.body.join(" ")}`} />
           {day.body.map((p, i) => <p key={i}><BibleText text={p} /></p>)}
         </section>
 
