@@ -3,6 +3,7 @@ import { days, bookMeta, type Day } from "@/data/book";
 import { AttendanceForm } from "@/components/AttendanceForm";
 import { BibleText, bibleUrl } from "@/lib/bible";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ReadAloud } from "@/components/ReadAloud";
 
 export const Route = createFileRoute("/siku/$day")({
   component: DayPage,
