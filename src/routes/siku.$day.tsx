@@ -1,6 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { days, bookMeta, type Day } from "@/data/book";
 import { AttendanceForm } from "@/components/AttendanceForm";
+import { BibleText, bibleUrl } from "@/lib/bible";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const Route = createFileRoute("/siku/$day")({
   component: DayPage,
@@ -35,7 +37,10 @@ function DayPage() {
       <nav className="border-b border-border bg-card/60 backdrop-blur">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
           <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-accent">← Yaliyomo</Link>
-          <span className="text-xs uppercase tracking-widest text-muted-foreground">{bookMeta.theme}</span>
+          <div className="flex items-center gap-3">
+            <span className="hidden text-xs uppercase tracking-widest text-muted-foreground sm:inline">{bookMeta.theme}</span>
+            <ThemeToggle />
+          </div>
         </div>
       </nav>
 
@@ -45,14 +50,19 @@ function DayPage() {
           <h1 className="mt-4 font-display text-4xl font-semibold leading-tight text-primary md:text-5xl">
             {day.title}
           </h1>
-          <div className="mx-auto mt-6 inline-block rounded-full bg-gold-grad px-5 py-2 text-sm font-semibold text-gold-foreground">
-            Andiko Kuu: {day.scripture}
-          </div>
+          <a
+            href={bibleUrl(day.scripture)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mx-auto mt-6 inline-block rounded-full bg-gold-grad px-5 py-2 text-sm font-semibold text-gold-foreground transition hover:scale-105"
+          >
+            Andiko Kuu: {day.scripture} ↗
+          </a>
         </header>
 
         <section className="prose-reading mt-12 text-foreground/90">
           <h2 className="mb-4 font-display text-2xl text-primary">Maelezo</h2>
-          {day.body.map((p, i) => <p key={i}>{p}</p>)}
+          {day.body.map((p, i) => <p key={i}><BibleText text={p} /></p>)}
         </section>
 
         <section className="mt-12 rounded-2xl border border-border bg-card p-8 shadow-sm">

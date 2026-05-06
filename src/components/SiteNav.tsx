@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import logo from "@/assets/logo-spct.png";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function SiteNav() {
   return (
@@ -22,6 +23,7 @@ export function SiteNav() {
           <Link to="/maombi-binafsi" className="rounded-md px-3 py-1.5 text-muted-foreground hover:text-accent" activeProps={{ className: "text-accent font-semibold" }}>
             Ombi la Kuombewa
           </Link>
+          <ThemeToggle />
         </div>
       </div>
     </nav>
