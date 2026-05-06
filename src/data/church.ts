@@ -1,6 +1,6 @@
 export const churchInfo = {
-  primaryChurch: "Shekinah Presbyterian Church – Madale",
-  note: "Kijitabu hiki kinatumika kwa Ushirika wa Madale. Hata hivyo, makanisa mengine yanaruhusiwa kukitumia kwa ajili ya maombi ya siku 21.",
+  primaryChurch: "Shekinah Presbyterian Church",
+  note: "Kijitabu hiki kinatumika na makanisa yote ya Shekinah Presbyterian. Wachungaji wanakaribishwa kukitumia kwa ajili ya maombi ya siku 21.",
 };
 
 export type Person = { name: string; phone: string; role?: string };

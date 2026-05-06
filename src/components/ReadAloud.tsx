@@ -78,7 +78,7 @@ export function ReadAloud({ text }: { text: string }) {
   return (
     <div className="mt-6 rounded-xl border border-accent/30 bg-accent/5 p-3">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs uppercase tracking-widest text-accent">Sikiliza (Sauti ya Kike)</span>
+        <span className="text-xs uppercase tracking-widest text-accent">Sikiliza</span>
         {state === "idle" && (
           <button
             onClick={() => start()}
