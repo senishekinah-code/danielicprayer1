@@ -68,6 +68,17 @@ export function ReadAloud({ text }: { text: string }) {
     return "fallback";
   }, [current]);
 
+  // Order voices: Swahili female → Swahili → female → others
+  const orderedVoices = useMemo(() => {
+    const score = (v: SpeechSynthesisVoice) => {
+      if (isSwahili(v) && isFemaleVoice(v)) return 0;
+      if (isSwahili(v)) return 1;
+      if (isFemaleVoice(v)) return 2;
+      return 3;
+    };
+    return [...voices].sort((a, b) => score(a) - score(b) || a.name.localeCompare(b.name));
+  }, [voices]);
+
   if (!supported) return null;
 
   const start = (r: number = rate) => {
@@ -117,17 +128,6 @@ export function ReadAloud({ text }: { text: string }) {
     "fallback": "text-amber-600 dark:text-amber-400",
     "none": "text-destructive",
   };
-
-  // Order voices: Swahili female → Swahili → female → others
-  const orderedVoices = useMemo(() => {
-    const score = (v: SpeechSynthesisVoice) => {
-      if (isSwahili(v) && isFemaleVoice(v)) return 0;
-      if (isSwahili(v)) return 1;
-      if (isFemaleVoice(v)) return 2;
-      return 3;
-    };
-    return [...voices].sort((a, b) => score(a) - score(b) || a.name.localeCompare(b.name));
-  }, [voices]);
 
   return (
     <div className="mt-6 rounded-xl border border-accent/30 bg-accent/5 p-3">
