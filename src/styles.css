@@ -100,3 +100,15 @@
 .bg-gold-grad { background: var(--gradient-gold); }
 .shadow-elegant { box-shadow: var(--shadow-elegant); }
 .prose-reading p { margin-bottom: 1.1rem; line-height: 1.85; font-size: 1.0625rem; }
+
+.reading-box {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1.1;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+.reading-box p { font-size: 12px !important; line-height: 1.1 !important; margin-bottom: 0.6rem; }
+.reading-box * { font-size: inherit; line-height: inherit; }
