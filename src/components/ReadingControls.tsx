@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 
 const SIZES = [
-  { id: "sm", label: "A−", px: 12 },
-  { id: "md", label: "A", px: 14 },
-  { id: "lg", label: "A+", px: 16 },
-  { id: "xl", label: "A++", px: 19 },
+  { id: "sm", label: "A−", px: 17 },
+  { id: "md", label: "A", px: 19 },
+  { id: "lg", label: "A+", px: 22 },
+  { id: "xl", label: "A++", px: 26 },
 ];
 
 export function ReadingControls({ targetSelector = ".reading-target" }: { targetSelector?: string }) {
   const [size, setSize] = useState<string>(() =>
-    typeof window !== "undefined" ? localStorage.getItem("rc-size") || "sm" : "sm",
+    typeof window !== "undefined" ? localStorage.getItem("rc-size") || "md" : "md",
   );
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export function ReadingControls({ targetSelector = ".reading-target" }: { target
     const s = SIZES.find((x) => x.id === size) || SIZES[0];
     target.style.fontFamily = "Arial, Helvetica, sans-serif";
     target.style.fontSize = `${s.px}px`;
-    target.style.lineHeight = "1.1";
+    target.style.lineHeight = "1.6";
     localStorage.setItem("rc-size", size);
   }, [size, targetSelector]);
 

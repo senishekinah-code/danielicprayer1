@@ -103,12 +103,13 @@
 
 .reading-box {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  line-height: 1.1;
+  font-size: 19px;
+  line-height: 1.6;
   background: var(--color-card);
   border: 1px solid var(--color-border);
   border-radius: 0.75rem;
-  padding: 1rem 1.25rem;
+  padding: 1.25rem 1.5rem;
 }
-.reading-box p { font-size: 12px !important; line-height: 1.1 !important; margin-bottom: 0.6rem; }
-.reading-box * { font-size: inherit; line-height: inherit; }
+.reading-box p { line-height: inherit; margin-bottom: 1rem; }
+.reading-box a { color: #c1121f !important; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 2px; font-weight: 600; }
+.reading-box a:hover { color: #9d0208 !important; }
