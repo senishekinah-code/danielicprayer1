@@ -62,10 +62,10 @@ function DayPage() {
           </a>
         </header>
 
-        <section className="prose-reading mt-12 text-foreground/90">
+        <section className="mt-12 text-foreground/90">
           <h2 className="mb-4 font-display text-2xl text-primary">Maelezo</h2>
           <ReadingControls targetSelector="#siku-maelezo" />
-          <div id="siku-maelezo" className="reading-target">
+          <div id="siku-maelezo" className="reading-target reading-box">
             {day.body.map((p, i) => <p key={i}><BibleText text={p} /></p>)}
           </div>
         </section>
