@@ -97,13 +97,13 @@
     line-height: 1.65;
     font-feature-settings: "ss01", "cv11", "kern";
   }
-  h1, h2, h3, h4 {
+  :where(h1, h2, h3, h4) {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
     font-weight: 600;
     color: var(--color-primary);
   }
-  p { color: color-mix(in oklab, var(--color-foreground) 92%, transparent); }
+  :where(p) { color: color-mix(in oklab, var(--color-foreground) 92%, transparent); }
   ::selection { background: color-mix(in oklab, var(--color-accent) 45%, transparent); color: var(--color-primary); }
 }
 
