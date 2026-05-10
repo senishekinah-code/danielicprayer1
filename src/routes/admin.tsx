@@ -42,8 +42,14 @@ function AdminPage() {
     setError(null);
     try {
       const res = await fetchFn({ data: { password: pw } });
-      setRows(res.rows as Row[]);
-      sessionStorage.setItem("admin-pw", pw);
+      if (!res.ok) {
+        setError(res.error);
+        sessionStorage.removeItem("admin-pw");
+        setRows(null);
+      } else {
+        setRows(res.rows as Row[]);
+        sessionStorage.setItem("admin-pw", pw);
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Hitilafu");
       sessionStorage.removeItem("admin-pw");
