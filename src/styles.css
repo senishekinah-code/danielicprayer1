@@ -107,8 +107,15 @@
   ::selection { background: color-mix(in oklab, var(--color-accent) 45%, transparent); color: var(--color-primary); }
 }
 
-.bg-hero { background: var(--gradient-hero); }
-.bg-gold-grad { background: var(--gradient-gold); }
+.bg-hero {
+  background: var(--gradient-hero);
+  color: oklch(0.98 0.02 90);
+}
+.bg-hero :where(h1, h2, h3, h4, p, blockquote, span, a) { color: inherit; }
+.bg-hero .text-gold,
+.bg-hero .text-gold\/80,
+.bg-hero .text-gold\/40 { color: oklch(0.90 0.16 90); }
+.bg-gold-grad { background: var(--gradient-gold); color: oklch(0.16 0.05 265); }
 .shadow-elegant { box-shadow: var(--shadow-elegant); }
 .prose-reading p { margin-bottom: 1.15rem; line-height: 1.8; font-size: 1.075rem; color: color-mix(in oklab, var(--color-foreground) 92%, transparent); }
 
