@@ -9,7 +9,7 @@ type Row = {
   phone: string;
   group_name: string | null;
   learned: string | null;
-  answers: unknown;
+  answers: Record<string, never>;
   created_at: string;
 };
 
