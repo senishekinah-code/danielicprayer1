@@ -78,7 +78,10 @@ function Home() {
       </section>
 
       <footer className="border-t border-border bg-primary py-8 text-center text-sm text-primary-foreground/70">
-        © 2026 {bookMeta.church}
+        <p>© 2026 {bookMeta.church}</p>
+        <Link to="/admin" className="mt-3 inline-block text-xs uppercase tracking-widest text-gold hover:underline">
+          Admin →
+        </Link>
       </footer>
     </div>
   );
