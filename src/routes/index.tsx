@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { bookMeta, intro, days } from "@/data/book";
 import { SiteNav } from "@/components/SiteNav";
 import { churchInfo } from "@/data/church";
+import { T } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({ component: Home });
 
@@ -12,22 +13,22 @@ function Home() {
       {/* Hero */}
       <header className="bg-hero text-primary-foreground">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold">{bookMeta.church}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold"><T>{bookMeta.church}</T></p>
           <h1 className="mt-6 font-display text-5xl font-semibold leading-tight md:text-7xl">
-            {bookMeta.subtitle}
+            <T>{bookMeta.subtitle}</T>
           </h1>
-          <p className="mt-3 text-lg italic text-gold">{bookMeta.title}</p>
+          <p className="mt-3 text-lg italic text-gold"><T>{bookMeta.title}</T></p>
           <div className="mx-auto mt-8 inline-block border-y border-gold/40 px-6 py-3">
-            <p className="text-xs uppercase tracking-widest text-gold/80">Mada Kuu</p>
-            <p className="font-display text-3xl">{bookMeta.theme}</p>
+            <p className="text-xs uppercase tracking-widest text-gold/80"><T>Mada Kuu</T></p>
+            <p className="font-display text-3xl"><T>{bookMeta.theme}</T></p>
           </div>
-          <p className="mt-6 text-sm tracking-wider opacity-80">{bookMeta.dates}</p>
+          <p className="mt-6 text-sm tracking-wider opacity-80"><T>{bookMeta.dates}</T></p>
           <blockquote className="mx-auto mt-10 max-w-2xl font-display text-xl italic opacity-90">
-            “{bookMeta.epigraph}”
+            “<T>{bookMeta.epigraph}</T>”
           </blockquote>
-          <p className="mt-3 text-sm text-gold">{bookMeta.verse}</p>
+          <p className="mt-3 text-sm text-gold"><T>{bookMeta.verse}</T></p>
           <a href="#yaliyomo" className="mt-10 inline-block rounded-full bg-gold-grad px-8 py-3 text-sm font-semibold text-gold-foreground shadow-elegant transition hover:scale-105">
-            Anza Kusoma →
+            <T>Anza Kusoma →</T>
           </a>
         </div>
       </header>
@@ -35,17 +36,17 @@ function Home() {
       {/* Church note */}
       <section className="mx-auto max-w-3xl px-6 pt-12">
         <div className="rounded-2xl border border-accent/30 bg-accent/5 p-6 text-center">
-          <p className="text-xs uppercase tracking-[0.3em] text-accent">Maelezo</p>
-          <p className="mt-3 font-display text-xl text-primary">{churchInfo.primaryChurch}</p>
-          <p className="mt-2 text-sm text-foreground/80">{churchInfo.note}</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-accent"><T>Maelezo</T></p>
+          <p className="mt-3 font-display text-xl text-primary"><T>{churchInfo.primaryChurch}</T></p>
+          <p className="mt-2 text-sm text-foreground/80"><T>{churchInfo.note}</T></p>
         </div>
       </section>
 
       {/* Intro */}
       <section className="mx-auto max-w-3xl px-6 py-16">
-        <h2 className="font-display text-3xl text-primary md:text-4xl">{intro.heading}</h2>
+        <h2 className="font-display text-3xl text-primary md:text-4xl"><T>{intro.heading}</T></h2>
         <div className="prose-reading mt-6 text-foreground/90">
-          {intro.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+          {intro.paragraphs.map((p, i) => <p key={i}><T>{p}</T></p>)}
         </div>
       </section>
 
@@ -53,8 +54,8 @@ function Home() {
       <section id="yaliyomo" className="bg-secondary/50 py-16">
         <div className="mx-auto max-w-5xl px-6">
           <div className="text-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-accent">Yaliyomo</p>
-            <h2 className="mt-2 font-display text-4xl text-primary">Siku 21 za Maombi</h2>
+            <p className="text-xs uppercase tracking-[0.3em] text-accent"><T>Yaliyomo</T></p>
+            <h2 className="mt-2 font-display text-4xl text-primary"><T>Siku 21 za Maombi</T></h2>
           </div>
           <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {days.map((d) => (
@@ -68,8 +69,8 @@ function Home() {
                   {d.day}
                 </span>
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-muted-foreground">Siku ya {d.day}</p>
-                  <p className="mt-1 font-display text-lg leading-snug text-primary group-hover:text-accent">{d.title}</p>
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground"><T>Siku ya</T> {d.day}</p>
+                  <p className="mt-1 font-display text-lg leading-snug text-primary group-hover:text-accent"><T>{d.title}</T></p>
                 </div>
               </Link>
             ))}
@@ -78,10 +79,7 @@ function Home() {
       </section>
 
       <footer className="border-t border-border bg-primary py-8 text-center text-sm text-primary-foreground/70">
-        <p>© 2026 {bookMeta.church}</p>
-        <Link to="/admin" className="mt-3 inline-block text-xs uppercase tracking-widest text-gold hover:underline">
-          Admin →
-        </Link>
+        <p>© 2026 <T>{bookMeta.church}</T></p>
       </footer>
     </div>
   );
