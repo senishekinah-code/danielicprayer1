@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MaombiBinafsiRouteImport } from './routes/maombi-binafsi'
+import { Route as AhadiRouteImport } from './routes/ahadi'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SikuDayRouteImport } from './routes/siku.$day'
 
 const MaombiBinafsiRoute = MaombiBinafsiRouteImport.update({
   id: '/maombi-binafsi',
   path: '/maombi-binafsi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AhadiRoute = AhadiRouteImport.update({
+  id: '/ahadi',
+  path: '/ahadi',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,30 +37,34 @@ const SikuDayRoute = SikuDayRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ahadi': typeof AhadiRoute
   '/maombi-binafsi': typeof MaombiBinafsiRoute
   '/siku/$day': typeof SikuDayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ahadi': typeof AhadiRoute
   '/maombi-binafsi': typeof MaombiBinafsiRoute
   '/siku/$day': typeof SikuDayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ahadi': typeof AhadiRoute
   '/maombi-binafsi': typeof MaombiBinafsiRoute
   '/siku/$day': typeof SikuDayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/maombi-binafsi' | '/siku/$day'
+  fullPaths: '/' | '/ahadi' | '/maombi-binafsi' | '/siku/$day'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/maombi-binafsi' | '/siku/$day'
-  id: '__root__' | '/' | '/maombi-binafsi' | '/siku/$day'
+  to: '/' | '/ahadi' | '/maombi-binafsi' | '/siku/$day'
+  id: '__root__' | '/' | '/ahadi' | '/maombi-binafsi' | '/siku/$day'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AhadiRoute: typeof AhadiRoute
   MaombiBinafsiRoute: typeof MaombiBinafsiRoute
   SikuDayRoute: typeof SikuDayRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/maombi-binafsi'
       fullPath: '/maombi-binafsi'
       preLoaderRoute: typeof MaombiBinafsiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ahadi': {
+      id: '/ahadi'
+      path: '/ahadi'
+      fullPath: '/ahadi'
+      preLoaderRoute: typeof AhadiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AhadiRoute: AhadiRoute,
   MaombiBinafsiRoute: MaombiBinafsiRoute,
   SikuDayRoute: SikuDayRoute,
 }
