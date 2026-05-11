@@ -1,5 +1,6 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
+import { I18nProvider } from "@/lib/i18n";
 
 function NotFoundComponent() {
   return (
@@ -39,7 +40,7 @@ export const Route = createRootRoute({
   shellComponent: ({ children }: { children: React.ReactNode }) => (
     <html lang="sw">
       <head><HeadContent /></head>
-      <body>{children}<Scripts /></body>
+      <body><I18nProvider>{children}</I18nProvider><Scripts /></body>
     </html>
   ),
   component: () => <Outlet />,
